@@ -3,10 +3,12 @@ package com.github.penfeizhou.animation.demo
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.github.penfeizhou.animation.demo.databinding.ActivityMainBinding
+import kotlin.concurrent.thread
 
 /**
  *
@@ -35,6 +37,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.tv6.setOnClickListener(this)
         binding.tv7.setOnClickListener(this)
         binding.tv8.setOnClickListener(this)
+//        val context=applicationContext
+//        thread {
+//            Log.d("AppLog", "testing using byte array from resources, of normal animated webp file")
+//            AnimationParser.parseAnimationWithResource(context,R.raw.animated_webp)
+//            Log.d("AppLog", "testing using byte array from resources, of an animated webp file with transparency")
+//            AnimationParser.parseAnimationWithResource(context,R.raw.animated_webp_with_transparency)
+//            Log.d("AppLog", "testing using byte array from resources, of an animated gif file")
+//            AnimationParser.parseAnimationWithResource(context, R.raw.animated_gif)
+//            AnimationParser.parseAnimationWithByteArray(resources.openRawResource(R.raw.animated_gif).readBytes())
+//        }
     }
 
     override fun onClick(v: View) {

@@ -10,11 +10,14 @@ import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 
 import com.github.penfeizhou.animation.decode.FrameSeqDecoder;
 import com.github.penfeizhou.animation.loader.Loader;
@@ -25,10 +28,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 
 /**
  * @Description: Frame animation drawable
@@ -172,7 +171,7 @@ public abstract class FrameAnimationDrawable<Decoder extends FrameSeqDecoder<?, 
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         if (bitmap == null || bitmap.isRecycled()) {
             return;
         }
@@ -216,7 +215,7 @@ public abstract class FrameAnimationDrawable<Decoder extends FrameSeqDecoder<?, 
     }
 
     @Override
-    public void onRender(ByteBuffer byteBuffer) {
+    public void onRender(@NonNull ByteBuffer byteBuffer) {
         if (!isRunning()) {
             return;
         }
@@ -300,11 +299,7 @@ public abstract class FrameAnimationDrawable<Decoder extends FrameSeqDecoder<?, 
     public int getMemorySize() {
         int size = frameSeqDecoder.getMemorySize();
         if (bitmap != null && !bitmap.isRecycled()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                size += bitmap.getAllocationByteCount();
-            } else {
-                size += bitmap.getByteCount();
-            }
+            size += bitmap.getAllocationByteCount();
         }
         return Math.max(1, size);
     }
