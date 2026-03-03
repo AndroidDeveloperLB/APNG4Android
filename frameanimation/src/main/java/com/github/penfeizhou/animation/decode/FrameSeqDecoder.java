@@ -3,10 +3,13 @@ package com.github.penfeizhou.animation.decode;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 
 import com.github.penfeizhou.animation.executor.FrameDecoderExecutor;
 import com.github.penfeizhou.animation.io.Reader;
@@ -24,9 +27,6 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.LockSupport;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
 
 /**
  * @Description: Abstract Frame Animation Decoder
@@ -62,7 +62,9 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
                 workerHandler.removeCallbacks(renderTask);
                 workerHandler.postDelayed(this, Math.max(0, delay - cost));
                 for (RenderListener renderListener : renderListeners) {
-                    renderListener.onRender(frameBuffer);
+                    if (frameBuffer != null) {
+                        renderListener.onRender(frameBuffer);
+                    }
                 }
             } else {
                 stop();
@@ -74,7 +76,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
     private final Set<Bitmap> cacheBitmaps = new HashSet<>();
     private final Object cacheBitmapsLock = new Object();
 
-    protected Map<Bitmap, Canvas> cachedCanvas = new WeakHashMap<>();
+    protected final Map<Bitmap, Canvas> cachedCanvas = new WeakHashMap<>();
     protected ByteBuffer frameBuffer;
     protected volatile Rect fullRect;
     private W mWriter = getWriter();
@@ -98,7 +100,8 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
 
     protected abstract R getReader(Reader reader);
 
-    protected Bitmap obtainBitmap(int width, int height) {
+    @Nullable
+    public Bitmap obtainBitmap(int width, int height) {
         synchronized (cacheBitmapsLock) {
             Bitmap ret = null;
             Iterator<Bitmap> iterator = cacheBitmaps.iterator();
@@ -106,25 +109,15 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
                 int reuseSize = width * height * 4;
                 ret = iterator.next();
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    if (ret != null && ret.getAllocationByteCount() >= reuseSize) {
-                        iterator.remove();
-                        if ((ret.getWidth() != width || ret.getHeight() != height)) {
-                            if (width > 0 && height > 0) {
-                                ret.reconfigure(width, height, Bitmap.Config.ARGB_8888);
-                            }
+                if (ret != null && ret.getAllocationByteCount() >= reuseSize) {
+                    iterator.remove();
+                    if ((ret.getWidth() != width || ret.getHeight() != height)) {
+                        if (width > 0 && height > 0) {
+                            ret.reconfigure(width, height, Bitmap.Config.ARGB_8888);
                         }
-                        ret.eraseColor(0);
-                        return ret;
                     }
-                } else {
-                    if (ret != null && ret.getByteCount() >= reuseSize) {
-                        if (ret.getWidth() == width && ret.getHeight() == height) {
-                            iterator.remove();
-                            ret.eraseColor(0);
-                        }
-                        return ret;
-                    }
+                    ret.eraseColor(0);
+                    return ret;
                 }
             }
 
@@ -143,7 +136,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
         }
     }
 
-    protected void recycleBitmap(Bitmap bitmap) {
+    public void recycleBitmap(@Nullable Bitmap bitmap) {
         synchronized (cacheBitmapsLock) {
             if (bitmap != null) {
                 cacheBitmaps.add(bitmap);
@@ -186,7 +179,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
     }
 
 
-    public void addRenderListener(final RenderListener renderListener) {
+    public void addRenderListener(final @NonNull RenderListener renderListener) {
         this.workerHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -208,7 +201,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
         this.workerHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (renderListeners.size() == 0) {
+                if (renderListeners.isEmpty()) {
                     stop();
                 }
             }
@@ -233,7 +226,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
                             }
                             initCanvasBounds(read(mReader));
                         }
-                    } catch (Exception e) {
+                    } catch (Exception | OutOfMemoryError e) {
                         e.printStackTrace();
                         fullRect = RECT_EMPTY;
                     } finally {
@@ -248,15 +241,32 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
 
     private void initCanvasBounds(Rect rect) {
         fullRect = rect;
-        frameBuffer = ByteBuffer.allocate((rect.width() * rect.height() / (getSampleSize() * getSampleSize()) + 1) * 4);
-        if (mWriter == null) {
-            mWriter = getWriter();
+        long bufferSize = ((long) rect.width() * rect.height() / ((long) sampleSize * sampleSize) + 1) * 4;
+
+        try {
+            frameBuffer = ByteBuffer.allocate((int)bufferSize);
+            if (mWriter == null) {
+                mWriter = getWriter();
+            }
+        } catch (OutOfMemoryError error) {
+            Log.e(TAG, String.format(
+                            "OutOfMemoryError in FrameSeqDecoder: Buffer needed: %.2fMB (%,d bytes)",
+                            bufferSize / (1024.0 * 1024.0), bufferSize
+                    )
+            );
+            frameBuffer = null;
+            fullRect = RECT_EMPTY;
+            throw error;
         }
     }
 
 
     public int getFrameCount() {
         return this.frames.size();
+    }
+
+    public int getFrameIndex() {
+        return frameIndex;
     }
 
     /**
@@ -534,7 +544,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
         }
         mState = State.RUNNING;
         paused.compareAndSet(true, false);
-        if (frames.size() == 0) {
+        if (frames.isEmpty()) {
             if (mReader == null) {
                 mReader = getReader(mLoader.obtain());
             } else {
@@ -563,6 +573,109 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
         return bitmap;
     }
 
+    /**
+     * Prepares the decoder for sequential frame-by-frame decoding.
+     * This should be called before {@link #nextFrame(Bitmap)}.
+     * Remember to call {@link #stop()} when finished to release resources.
+     *
+     * @return The total number of frames.
+     * @throws IOException If there's an error reading the metadata.
+     */
+    @WorkerThread
+    public int prepareSequentialDecode() throws IOException {
+        if (mState != State.IDLE) {
+            innerStop();
+        }
+        mState = State.RUNNING;
+        paused.set(false);
+        if (getFrameCount() == 0) {
+            if (mReader == null) {
+                mReader = getReader(mLoader.obtain());
+            } else {
+                mReader.reset();
+            }
+            initCanvasBounds(read(mReader));
+        }
+        this.frameIndex = -1;
+        return getFrameCount();
+    }
+
+    /**
+     * Decodes the next frame into the provided bitmap.
+     *
+     * @param bitmap The bitmap to decode into. Must be of correct size (getBounds()).
+     * @return The duration of the frame in ms, or -1 if there are no more frames.
+     */
+    @WorkerThread
+    public int nextFrame(Bitmap bitmap) {
+        if (mState != State.RUNNING) {
+            return -1;
+        }
+        if (this.frameIndex + 1 >= getFrameCount()) {
+            return -1;
+        }
+        long duration = step();
+        if (frameBuffer != null) {
+            frameBuffer.rewind();
+            bitmap.copyPixelsFromBuffer(frameBuffer);
+        }
+        return (int) duration;
+    }
+
+    /**
+     * Decode all frames one by one synchronously.
+     * <p>
+     * <b>Note:</b> The bitmap passed to the visitor is reused for each frame.
+     * If you need to keep the bitmap, you must make a copy of it.
+     *
+     * @param visitor visitor for each frame
+     */
+    @WorkerThread
+    public void decodeAllFrames(@NonNull FrameVisitor visitor) {
+        try {
+            int count = prepareSequentialDecode();
+            Bitmap bitmap = obtainBitmap(fullRect.width() / sampleSize, fullRect.height() / sampleSize);
+            if (bitmap == null) {
+                return;
+            }
+            for (int i = 0; i < count; ++i) {
+                int duration = nextFrame(bitmap);
+                if (duration < 0) {
+                    break;
+                }
+                if (!visitor.onFrame(i, bitmap, duration)) {
+                    break;
+                }
+            }
+            recycleBitmap(bitmap);
+        } catch (Throwable e) {
+            visitor.onException(e);
+        } finally {
+            innerStop();
+        }
+    }
+
+    public interface FrameVisitor {
+        /**
+         * Called for each frame decoded.
+         *
+         * @param index    The index of the frame.
+         * @param bitmap   The decoded frame bitmap. Note: this bitmap is reused for subsequent frames.
+         * @param duration The duration of the frame in milliseconds.
+         * @return true to continue decoding the next frame, false to stop.
+         */
+        boolean onFrame(int index, @NonNull Bitmap bitmap, int duration);
+
+        /**
+         * Called if an exception occurs during decoding.
+         *
+         * @param t The throwable encountered.
+         */
+        default void onException(Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
     public int getMemorySize() {
         synchronized (cacheBitmapsLock) {
             int size = 0;
@@ -570,11 +683,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
                 if (bitmap.isRecycled()) {
                     continue;
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    size += bitmap.getAllocationByteCount();
-                } else {
-                    size += bitmap.getByteCount();
-                }
+                size += bitmap.getAllocationByteCount();
             }
             if (frameBuffer != null) {
                 size += frameBuffer.capacity();
