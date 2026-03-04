@@ -3,12 +3,13 @@ package com.github.penfeizhou.animation.demo
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.github.penfeizhou.animation.demo.databinding.ActivityMainBinding
-import kotlin.concurrent.thread
 
 /**
  *
@@ -27,6 +28,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         )
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val navigationBarsWithIme =
+                insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout() or WindowInsetsCompat.Type.ime())
+            binding.appBarLayout.setPadding(
+                navigationBarsWithIme.left,
+                navigationBarsWithIme.top,
+                navigationBarsWithIme.right,
+                0
+            )
+            binding.root.setPadding(navigationBarsWithIme.left, 0, navigationBarsWithIme.right, 0)
+            binding.contentContainer.updatePadding(bottom = navigationBarsWithIme.bottom)
+            insets
+        }
         binding.tv0.setOnClickListener(this)
         binding.tvAvif.setOnClickListener(this)
         binding.tv1.setOnClickListener(this)
