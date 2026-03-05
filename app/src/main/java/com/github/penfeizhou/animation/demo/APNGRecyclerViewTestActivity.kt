@@ -1,44 +1,43 @@
-package com.github.penfeizhou.animation.demo;
+package com.github.penfeizhou.animation.demo
 
-import android.os.Bundle;
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import com.github.penfeizhou.animation.demo.databinding.ActivityApngListTestBinding
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
+class APNGRecyclerViewTestActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityApngListTestBinding
 
-import com.github.penfeizhou.animation.demo.databinding.ActivityApngListTestBinding;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityApngListTestBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
-public class APNGRecyclerViewTestActivity extends AppCompatActivity {
-    private ActivityApngListTestBinding binding;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityApngListTestBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
-            Insets navigationBarsWithIme = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout() | WindowInsetsCompat.Type.ime());
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets: WindowInsetsCompat ->
+            val navigationBarsWithIme = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout() or WindowInsetsCompat.Type.ime()
+            )
             binding.appBarLayout.setPadding(
-                    navigationBarsWithIme.left,
-                    navigationBarsWithIme.top,
-                    navigationBarsWithIme.right,
-                    0
-            );
-            binding.getRoot().setPadding(navigationBarsWithIme.left, 0, navigationBarsWithIme.right, 0);
+                navigationBarsWithIme.left,
+                navigationBarsWithIme.top,
+                navigationBarsWithIme.right,
+                0
+            )
+            binding.root.setPadding(navigationBarsWithIme.left, 0, navigationBarsWithIme.right, 0)
             binding.rv.setPadding(
-                    binding.rv.getPaddingLeft(),
-                    binding.rv.getPaddingTop(),
-                    binding.rv.getPaddingRight(),
-                    navigationBarsWithIme.bottom
-            );
-            return insets;
-        });
+                binding.rv.paddingLeft,
+                binding.rv.paddingTop,
+                binding.rv.paddingRight,
+                navigationBarsWithIme.bottom
+            )
+            insets
+        }
 
-        binding.rv.setLayoutManager(new GridLayoutManager(this, 3));
-        binding.rv.setAdapter(new TestAdapter(this));
+        binding.rv.layoutManager = GridLayoutManager(this, 3)
+        binding.rv.adapter = TestAdapter(this)
     }
 }

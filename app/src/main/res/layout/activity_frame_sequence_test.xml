@@ -45,12 +45,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />
 
-            <Button
-                android:id="@+id/btnNextFrame"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Next Frame" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnNextFrame"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Next Frame" />
+
+                <Button
+                    android:id="@+id/btnNextFrameLoop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Loop Next" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/imageView"
@@ -74,6 +89,43 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Frame Info: "
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="#CCC" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Background Decoding Performance:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnRunPerformance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Run Decode All Frames" />
+
+            <ProgressBar
+                android:id="@+id/pbPerformance"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvPerformanceInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Performance Info: "
                 android:textSize="14sp" />
 
         </LinearLayout>

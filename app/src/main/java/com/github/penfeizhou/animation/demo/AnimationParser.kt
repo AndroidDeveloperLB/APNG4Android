@@ -23,7 +23,7 @@ import com.github.penfeizhou.animation.loader.ResourceStreamLoader
 
 object AnimationParser {
     fun parseAnimation(loader: Loader) {
-        val decoder = createDecoder(loader) ?: return
+        val decoder: FrameSeqDecoder<*, *> = createDecoder(loader) ?: return
 
 //        val width = decoder.bounds.width()
 //        val height = decoder.bounds.height()
