@@ -77,6 +77,18 @@
                 android:layout_height="80dp" android:layout_gravity="center"
                 android:gravity="center" android:text="Recycler View with Glide"
                 android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_9" android:layout_width="wrap_content"
+                android:layout_height="80dp" android:layout_gravity="center"
+                android:gravity="center" android:text="Transparency Test"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_10" android:layout_width="wrap_content"
+                android:layout_height="80dp" android:layout_gravity="center"
+                android:gravity="center" android:text="Frame Sequence Test"
+                android:textSize="20dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

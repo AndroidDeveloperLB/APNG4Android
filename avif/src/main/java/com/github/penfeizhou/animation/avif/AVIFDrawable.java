@@ -3,6 +3,8 @@ package com.github.penfeizhou.animation.avif;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.FrameAnimationDrawable;
 import com.github.penfeizhou.animation.avif.decode.AVIFDecoder;
 import com.github.penfeizhou.animation.decode.FrameSeqDecoder;
@@ -31,7 +33,7 @@ public class AVIFDrawable extends FrameAnimationDrawable<AVIFDecoder> {
     }
 
 
-    public static AVIFDrawable fromAsset(Context context, String assetPath) {
+    public static AVIFDrawable fromAsset(@NonNull Context context, String assetPath) {
         AssetStreamLoader assetStreamLoader = new AssetStreamLoader(context, assetPath);
         return new AVIFDrawable(assetStreamLoader);
     }
@@ -41,7 +43,7 @@ public class AVIFDrawable extends FrameAnimationDrawable<AVIFDecoder> {
         return new AVIFDrawable(fileLoader);
     }
 
-    public static AVIFDrawable fromResource(Context context, int resId) {
+    public static AVIFDrawable fromResource(@NonNull Context context, int resId) {
         ResourceStreamLoader resourceStreamLoader = new ResourceStreamLoader(context, resId);
         return new AVIFDrawable(resourceStreamLoader);
     }

@@ -65,12 +65,7 @@ public abstract class FrameAnimationDrawable<Decoder extends FrameSeqDecoder<?, 
             }
         }
     };
-    private final Runnable invalidateRunnable = new Runnable() {
-        @Override
-        public void run() {
-            invalidateSelf();
-        }
-    };
+    private final Runnable invalidateRunnable = () -> invalidateSelf();
     private boolean autoPlay = true;
 
     private final Set<WeakReference<Callback>> obtainedCallbacks = new HashSet<>();

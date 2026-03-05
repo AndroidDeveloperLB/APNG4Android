@@ -34,6 +34,12 @@
         <activity
             android:name=".ComposeActivity"
             android:exported="false" />
+        <activity
+            android:name=".TransparencyTestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FrameSequenceTestActivity"
+            android:exported="false" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

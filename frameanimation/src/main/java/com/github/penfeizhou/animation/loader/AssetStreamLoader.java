@@ -2,6 +2,8 @@ package com.github.penfeizhou.animation.loader;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -15,7 +17,7 @@ public class AssetStreamLoader extends StreamLoader {
     private final Context mContext;
     private final String mAssetName;
 
-    public AssetStreamLoader(Context context, String assetName) {
+    public AssetStreamLoader(@NonNull Context context, String assetName) {
         mContext = context.getApplicationContext();
         mAssetName = assetName;
     }

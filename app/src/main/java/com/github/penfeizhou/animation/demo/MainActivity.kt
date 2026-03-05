@@ -52,6 +52,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.tv6.setOnClickListener(this)
         binding.tv7.setOnClickListener(this)
         binding.tv8.setOnClickListener(this)
+        binding.tv9.setOnClickListener(this)
+        binding.tv10.setOnClickListener(this)
 //        val context=applicationContext
 //        thread {
 //            Log.d("AppLog", "testing using byte array from resources, of normal animated webp file")
@@ -154,6 +156,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     this,
                     APNGRecyclerViewTestActivity::class.java
                 )
+                startActivity(intent)
+            }
+
+            R.id.tv_9 -> {
+                val intent = Intent(this, TransparencyTestActivity::class.java)
+                startActivity(intent)
+            }
+
+            R.id.tv_10 -> {
+                val intent = Intent(this, FrameSequenceTestActivity::class.java)
                 startActivity(intent)
             }
         }

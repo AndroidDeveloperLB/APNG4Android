@@ -2,6 +2,8 @@ package com.github.penfeizhou.animation.loader;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -15,7 +17,7 @@ public class ResourceStreamLoader extends StreamLoader {
     private final int mResId;
 
 
-    public ResourceStreamLoader(Context context, int resId) {
+    public ResourceStreamLoader(@NonNull Context context, int resId) {
         mContext = context.getApplicationContext();
         mResId = resId;
     }

@@ -2,6 +2,8 @@ package com.github.penfeizhou.animation.avif.decode;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.avif.io.AVIFReader;
 import com.github.penfeizhou.animation.io.Reader;
 import com.github.penfeizhou.animation.io.StreamReader;
@@ -42,7 +44,7 @@ public class AVIFParser {
         }
     }
 
-    public static boolean isAVIF(Context context, String assetPath) {
+    public static boolean isAVIF(@NonNull Context context, String assetPath) {
         InputStream inputStream = null;
         try {
             inputStream = context.getAssets().open(assetPath);
@@ -60,7 +62,7 @@ public class AVIFParser {
         }
     }
 
-    public static boolean isAVIF(Context context, int resId) {
+    public static boolean isAVIF(@NonNull Context context, int resId) {
         InputStream inputStream = null;
         try {
             inputStream = context.getResources().openRawResource(resId);

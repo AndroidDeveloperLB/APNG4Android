@@ -3,6 +3,8 @@ package com.github.penfeizhou.animation.apng;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.FrameAnimationDrawable;
 import com.github.penfeizhou.animation.apng.decode.APNGDecoder;
 import com.github.penfeizhou.animation.decode.FrameSeqDecoder;
@@ -31,7 +33,7 @@ public class APNGDrawable extends FrameAnimationDrawable<APNGDecoder> {
     }
 
 
-    public static APNGDrawable fromAsset(Context context, String assetPath) {
+    public static APNGDrawable fromAsset(@NonNull Context context, String assetPath) {
         AssetStreamLoader assetStreamLoader = new AssetStreamLoader(context, assetPath);
         return new APNGDrawable(assetStreamLoader);
     }
@@ -41,7 +43,7 @@ public class APNGDrawable extends FrameAnimationDrawable<APNGDecoder> {
         return new APNGDrawable(fileLoader);
     }
 
-    public static APNGDrawable fromResource(Context context, int resId) {
+    public static APNGDrawable fromResource(@NonNull Context context, int resId) {
         ResourceStreamLoader resourceStreamLoader = new ResourceStreamLoader(context, resId);
         return new APNGDrawable(resourceStreamLoader);
     }

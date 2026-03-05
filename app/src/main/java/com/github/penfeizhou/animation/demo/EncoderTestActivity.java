@@ -55,22 +55,14 @@ public class EncoderTestActivity extends AppCompatActivity {
         layoutParams.topMargin = 50;
         linearLayout.addView(imageView, layoutParams);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(() -> {
 
-                final byte[] ret = WebPEncoder.fromDecoder(
-                        APNGDrawable.fromAsset(EncoderTestActivity.this,
-                                "test2.png").getFrameSeqDecoder()).build();
-                imageView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Glide.with(imageView)
-                                .load(ret)
-                                .into(imageView);
-                    }
-                });
-            }
+            final byte[] ret = WebPEncoder.fromDecoder(
+                    APNGDrawable.fromAsset(EncoderTestActivity.this,
+                            "test2.png").getFrameSeqDecoder()).build();
+            imageView.post(() -> Glide.with(imageView)
+                    .load(ret)
+                    .into(imageView));
         }).start();
     }
 }

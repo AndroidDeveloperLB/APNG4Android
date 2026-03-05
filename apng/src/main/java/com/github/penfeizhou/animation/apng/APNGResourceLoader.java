@@ -3,6 +3,8 @@ package com.github.penfeizhou.animation.apng;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.loader.ResourceStreamLoader;
 
 /**
@@ -12,7 +14,7 @@ import com.github.penfeizhou.animation.loader.ResourceStreamLoader;
  */
 @Deprecated
 public class APNGResourceLoader extends ResourceStreamLoader {
-    public APNGResourceLoader(Context context, int resId) {
+    public APNGResourceLoader(@NonNull Context context, int resId) {
         super(context, resId);
     }
 }

@@ -2,6 +2,8 @@ package com.github.penfeizhou.animation.gif.decode;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.gif.io.GifReader;
 import com.github.penfeizhou.animation.io.Reader;
 import com.github.penfeizhou.animation.io.StreamReader;
@@ -42,7 +44,7 @@ public class GifParser {
         }
     }
 
-    public static boolean isGif(Context context, String assetPath) {
+    public static boolean isGif(@NonNull Context context, String assetPath) {
         InputStream inputStream = null;
         try {
             inputStream = context.getAssets().open(assetPath);
@@ -60,7 +62,7 @@ public class GifParser {
         }
     }
 
-    public static boolean isGif(Context context, int resId) {
+    public static boolean isGif(@NonNull Context context, int resId) {
         InputStream inputStream = null;
         try {
             inputStream = context.getResources().openRawResource(resId);

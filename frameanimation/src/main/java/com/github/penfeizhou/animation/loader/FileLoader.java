@@ -1,6 +1,8 @@
 package com.github.penfeizhou.animation.loader;
 
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.io.Reader;
 import com.github.penfeizhou.animation.io.FileReader;
 
@@ -17,7 +19,7 @@ public class FileLoader implements Loader {
     private final File mFile;
     private Reader mReader;
 
-    public FileLoader(String path) {
+    public FileLoader(@NonNull String path) {
         mFile = new File(path);
     }
 

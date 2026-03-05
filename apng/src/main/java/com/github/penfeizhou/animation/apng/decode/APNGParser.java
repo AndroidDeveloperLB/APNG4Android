@@ -2,6 +2,8 @@ package com.github.penfeizhou.animation.apng.decode;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.apng.io.APNGReader;
 import com.github.penfeizhou.animation.io.Reader;
 import com.github.penfeizhou.animation.io.StreamReader;
@@ -42,7 +44,7 @@ public class APNGParser {
         }
     }
 
-    public static boolean isAPNG(Context context, String assetPath) {
+    public static boolean isAPNG(@NonNull Context context, String assetPath) {
         InputStream inputStream = null;
         try {
             inputStream = context.getAssets().open(assetPath);
@@ -60,7 +62,7 @@ public class APNGParser {
         }
     }
 
-    public static boolean isAPNG(Context context, int resId) {
+    public static boolean isAPNG(@NonNull Context context, int resId) {
         InputStream inputStream = null;
         try {
             inputStream = context.getResources().openRawResource(resId);
