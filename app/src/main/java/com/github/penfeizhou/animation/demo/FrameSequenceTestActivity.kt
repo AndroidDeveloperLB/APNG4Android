@@ -45,9 +45,10 @@ class FrameSequenceTestActivity : AppCompatActivity() {
 
         // List only files that have animation (based on common demo files)
         val animationFiles = listOf(
-                "wheel.avif", "world-cup.avif", "apng_detail_guide.png", "test1.png", "test2.png", "test3.png", "test4.png", "test5.png", "world-cup.png",
-                "1.gif", "2.gif", "3.gif", "4.gif", "5.gif", "6.gif", "world-cup.gif",
-                "1.webp", "2.webp", "Rqa.webp",   "example.webp", "world-cup.webp", "world-cup_lossy.webp"
+            "test.avif", "wheel.avif", "world-cup.avif",
+            "apng_detail_guide.png", "test2.png",
+            "1.gif", "2.gif", "3.gif", "4.gif", "5.gif", "6.gif", "world-cup.gif",
+            "1.webp", "2.webp", "animated_webp_with_transparency.webp"
         )
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, animationFiles)

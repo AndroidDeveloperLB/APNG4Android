@@ -33,7 +33,7 @@ class TransparencyTestActivity : AppCompatActivity() {
         }
 
         Glide.with(this)
-            .load(R.raw.animated_webp_with_transparency)
+            .load("file:///android_asset/animated_webp_with_transparency.webp")
             .into(binding.imageView)
 
         binding.btnChangeBackground.setOnClickListener {
