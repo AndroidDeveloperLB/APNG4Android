@@ -4,7 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
+
+import androidx.annotation.NonNull;
 
 import com.github.penfeizhou.animation.apng.io.APNGReader;
 import com.github.penfeizhou.animation.apng.io.APNGWriter;
@@ -40,7 +41,7 @@ public class APNGFrame extends Frame<APNGReader, APNGWriter> {
         return crc32;
     }
 
-    public APNGFrame(APNGReader reader, FCTLChunk fctlChunk) {
+    public APNGFrame(APNGReader reader, @NonNull FCTLChunk fctlChunk) {
         super(reader);
         blend_op = fctlChunk.blend_op;
         dispose_op = fctlChunk.dispose_op;
@@ -59,7 +60,7 @@ public class APNGFrame extends Frame<APNGReader, APNGWriter> {
         frameY = fctlChunk.y_offset;
     }
 
-    private int encode(APNGWriter apngWriter) throws IOException {
+    private int encode(@NonNull  APNGWriter apngWriter) throws IOException {
         int fileSize = 8 + 13 + 12;
 
         //prefixChunks
@@ -130,7 +131,7 @@ public class APNGFrame extends Frame<APNGReader, APNGWriter> {
 
 
     @Override
-    public Bitmap draw(Canvas canvas, Paint paint, int sampleSize, Bitmap reusedBitmap, APNGWriter writer) {
+    public Bitmap draw(Canvas canvas, Paint paint, int sampleSize, Bitmap reusedBitmap, @NonNull APNGWriter writer) {
         try {
             int length = encode(writer);
             BitmapFactory.Options options = new BitmapFactory.Options();

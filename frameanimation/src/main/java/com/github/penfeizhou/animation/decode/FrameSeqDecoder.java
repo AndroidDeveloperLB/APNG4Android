@@ -156,7 +156,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
         /**
          * 帧播放
          */
-        void onRender(ByteBuffer byteBuffer);
+        void onRender(@NonNull ByteBuffer byteBuffer);
 
         /**
          * 播放结束

@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class FrameDecoderExecutor {
     private static int sPoolNumber = 4;
     private ArrayList<HandlerThread> mHandlerThreadGroup = new ArrayList<>();
-    private AtomicInteger counter = new AtomicInteger(0);
+    private final AtomicInteger counter = new AtomicInteger(0);
 
     private FrameDecoderExecutor() {
     }

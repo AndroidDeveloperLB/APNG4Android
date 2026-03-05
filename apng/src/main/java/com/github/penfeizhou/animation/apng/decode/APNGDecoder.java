@@ -8,6 +8,8 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.apng.io.APNGReader;
 import com.github.penfeizhou.animation.apng.io.APNGWriter;
 import com.github.penfeizhou.animation.decode.Frame;
@@ -76,7 +78,7 @@ public class APNGDecoder extends FrameSeqDecoder<APNGReader, APNGWriter> {
 
 
     @Override
-    protected Rect read(APNGReader reader) throws IOException {
+    protected Rect read(@NonNull APNGReader reader) throws IOException {
         List<Chunk> chunks = APNGParser.parse(reader);
         List<Chunk> otherChunks = new ArrayList<>();
 
@@ -89,7 +91,7 @@ public class APNGDecoder extends FrameSeqDecoder<APNGReader, APNGWriter> {
                 Log.e(TAG, "chunk read reach to end");
                 break;
             }
-            
+
             if (chunk instanceof ACTLChunk) {
                 mLoopCount = ((ACTLChunk) chunk).num_plays;
                 actl = true;

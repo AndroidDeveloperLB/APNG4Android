@@ -100,7 +100,7 @@ public class APNGParser {
         return false;
     }
 
-    public static List<Chunk> parse(APNGReader reader) throws IOException {
+    public static List<Chunk> parse(@NonNull APNGReader reader) throws IOException {
         if (!reader.matchFourCC("\u0089PNG") || !reader.matchFourCC("\r\n\u001a\n")) {
             throw new FormatException();
         }
