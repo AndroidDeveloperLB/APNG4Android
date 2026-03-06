@@ -41,6 +41,7 @@ public class ByteBufferAnimationDecoder implements ResourceDecoder<ByteBuffer, F
     @Override
     public Resource<FrameSeqDecoder> decode(@NonNull final ByteBuffer source, int width, int height, @NonNull Options options) throws IOException {
         Loader loader = new ByteBufferLoader() {
+            @NonNull
             @Override
             public ByteBuffer getByteBuffer() {
                 source.position(0);

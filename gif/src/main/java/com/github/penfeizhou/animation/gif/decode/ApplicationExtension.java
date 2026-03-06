@@ -1,5 +1,7 @@
 package com.github.penfeizhou.animation.gif.decode;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.gif.io.GifReader;
 
 import java.io.IOException;
@@ -14,7 +16,7 @@ public class ApplicationExtension extends ExtensionBlock {
     public String identifier;
 
     @Override
-    public void receive(GifReader reader) throws IOException {
+    public void receive(@NonNull GifReader reader) throws IOException {
         int blockSize = reader.peek();
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < blockSize; i++) {

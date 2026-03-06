@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import androidx.annotation.Nullable;
+
 import com.github.penfeizhou.animation.avif.io.AVIFReader;
 import com.github.penfeizhou.animation.avif.io.AVIFWriter;
 import com.github.penfeizhou.animation.decode.Frame;
@@ -21,6 +23,7 @@ public class AVIFFrame extends Frame<AVIFReader, AVIFWriter> {
         super(reader);
     }
 
+    @Nullable
     @Override
     public Bitmap draw(Canvas canvas, Paint paint, int sampleSize, Bitmap reusedBitmap, AVIFWriter writer) {
         return null;

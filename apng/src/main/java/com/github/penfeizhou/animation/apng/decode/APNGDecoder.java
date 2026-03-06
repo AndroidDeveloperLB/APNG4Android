@@ -60,6 +60,7 @@ public class APNGDecoder extends FrameSeqDecoder<APNGReader, APNGWriter> {
         return apngWriter;
     }
 
+    @NonNull
     @Override
     protected APNGReader getReader(Reader reader) {
         return new APNGReader(reader);
@@ -77,6 +78,7 @@ public class APNGDecoder extends FrameSeqDecoder<APNGReader, APNGWriter> {
     }
 
 
+    @NonNull
     @Override
     protected Rect read(@NonNull APNGReader reader) throws IOException {
         List<Chunk> chunks = APNGParser.parse(reader);
@@ -123,7 +125,7 @@ public class APNGDecoder extends FrameSeqDecoder<APNGReader, APNGWriter> {
                 canvasWidth = ((IHDRChunk) chunk).width;
                 canvasHeight = ((IHDRChunk) chunk).height;
                 ihdrData = ((IHDRChunk) chunk).data;
-            } else if (!(chunk instanceof IENDChunk)) {
+            } else {
                 otherChunks.add(chunk);
             }
         }
@@ -133,8 +135,8 @@ public class APNGDecoder extends FrameSeqDecoder<APNGReader, APNGWriter> {
     }
 
     @Override
-    protected void renderFrame(Frame<APNGReader, APNGWriter> frame) {
-        if (frame == null || fullRect == null) {
+    protected void renderFrame(@NonNull Frame<APNGReader, APNGWriter> frame) {
+        if (fullRect == null) {
             return;
         }
         try {

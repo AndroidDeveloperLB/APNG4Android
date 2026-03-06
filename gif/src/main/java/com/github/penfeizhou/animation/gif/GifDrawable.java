@@ -26,22 +26,26 @@ public class GifDrawable extends FrameAnimationDrawable<GifDecoder> {
         super(decoder);
     }
 
+    @NonNull
     @Override
     protected GifDecoder createFrameSeqDecoder(Loader loader, FrameSeqDecoder.RenderListener listener) {
         return new GifDecoder(loader, listener);
     }
 
 
+    @NonNull
     public static GifDrawable fromAsset(@NonNull Context context, String assetPath) {
         AssetStreamLoader assetStreamLoader = new AssetStreamLoader(context, assetPath);
         return new GifDrawable(assetStreamLoader);
     }
 
+    @NonNull
     public static GifDrawable fromFile(String filePath) {
         FileLoader fileLoader = new FileLoader(filePath);
         return new GifDrawable(fileLoader);
     }
 
+    @NonNull
     public static GifDrawable fromResource(@NonNull Context context, int resId) {
         ResourceStreamLoader resourceStreamLoader = new ResourceStreamLoader(context, resId);
         return new GifDrawable(resourceStreamLoader);

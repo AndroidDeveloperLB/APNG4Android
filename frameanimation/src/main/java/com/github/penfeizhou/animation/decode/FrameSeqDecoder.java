@@ -96,8 +96,10 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
 
     private volatile State mState = State.IDLE;
 
+    @Nullable
     protected abstract W getWriter();
 
+    @NonNull
     protected abstract R getReader(Reader reader);
 
     @Nullable
@@ -228,7 +230,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
         long bufferSize = ((long) rect.width() * rect.height() / ((long) sampleSize * sampleSize) + 1) * 4;
 
         try {
-            frameBuffer = ByteBuffer.allocate((int)bufferSize);
+            frameBuffer = ByteBuffer.allocate((int) bufferSize);
             if (mWriter == null) {
                 mWriter = getWriter();
             }
@@ -491,8 +493,9 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
         return frame.frameDuration;
     }
 
-    protected abstract void renderFrame(Frame<R, W> frame);
+    protected abstract void renderFrame(@NonNull Frame<R, W> frame);
 
+    @Nullable
     public Frame<R, W> getFrame(int index) {
         if (index < 0 || index >= frames.size()) {
             return null;
@@ -505,6 +508,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
      *
      * @param index <0 means reverse from last index
      */
+    @Nullable
     public Bitmap getFrameBitmap(int index) throws IOException {
         if (mState != State.IDLE) {
             Log.e(TAG, debugInfo() + ",stop first");

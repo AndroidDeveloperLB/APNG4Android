@@ -26,7 +26,7 @@ public class AVIFParser {
         }
     }
 
-    public static boolean isAVIF(String filePath) {
+    public static boolean isAVIF(@NonNull String filePath) {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(filePath);
@@ -44,7 +44,7 @@ public class AVIFParser {
         }
     }
 
-    public static boolean isAVIF(@NonNull Context context, String assetPath) {
+    public static boolean isAVIF(@NonNull Context context, @NonNull String assetPath) {
         InputStream inputStream = null;
         try {
             inputStream = context.getAssets().open(assetPath);

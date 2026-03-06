@@ -2,6 +2,8 @@ package com.github.penfeizhou.animation.avif.io;
 
 import android.text.TextUtils;
 
+import androidx.annotation.Nullable;
+
 import com.github.penfeizhou.animation.io.ByteBufferWriter;
 
 /**
@@ -33,7 +35,7 @@ public class AVIFWriter extends ByteBufferWriter {
         putUInt24(i - 1);
     }
 
-    public void putFourCC(String fourCC) {
+    public void putFourCC(@Nullable String fourCC) {
         if (TextUtils.isEmpty(fourCC) || fourCC.length() != 4) {
             skip(4);
             return;

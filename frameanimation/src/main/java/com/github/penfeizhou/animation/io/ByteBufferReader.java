@@ -1,5 +1,7 @@
 package com.github.penfeizhou.animation.io;
 
+import androidx.annotation.NonNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +13,10 @@ import java.nio.ByteBuffer;
  * @CreateDate: 2019-05-14
  */
 public class ByteBufferReader implements Reader {
-
+    @NonNull
     protected final ByteBuffer byteBuffer;
 
-    public ByteBufferReader(ByteBuffer byteBuffer) {
+    public ByteBufferReader(@NonNull ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
         byteBuffer.position(0);
     }
@@ -41,7 +43,7 @@ public class ByteBufferReader implements Reader {
     }
 
     @Override
-    public int read(byte[] buffer, int start, int byteCount) throws IOException {
+    public int read(@NonNull byte[] buffer, int start, int byteCount) throws IOException {
         byteBuffer.get(buffer, start, byteCount);
         return byteCount;
     }
@@ -55,11 +57,13 @@ public class ByteBufferReader implements Reader {
     public void close() throws IOException {
     }
 
+    @NonNull
     @Override
     public InputStream toInputStream() throws IOException {
         return new ByteArrayInputStream(byteBuffer.array());
     }
 
+    @NonNull
     public ByteBuffer getByteBuffer() {
         return byteBuffer;
     }

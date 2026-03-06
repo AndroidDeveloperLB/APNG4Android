@@ -1,5 +1,7 @@
 package com.github.penfeizhou.animation.gif.decode;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.gif.io.GifReader;
 
 import java.io.IOException;
@@ -15,7 +17,7 @@ public class CommentExtension extends ExtensionBlock {
     private List<DataSubBlock> dataSubBlocks = new ArrayList<>();
 
     @Override
-    public void receive(GifReader reader) throws IOException {
+    public void receive(@NonNull GifReader reader) throws IOException {
         DataSubBlock dataSubBlock;
         while (!(dataSubBlock = DataSubBlock.retrieve(reader)).isTerminal()) {
             dataSubBlocks.add(dataSubBlock);

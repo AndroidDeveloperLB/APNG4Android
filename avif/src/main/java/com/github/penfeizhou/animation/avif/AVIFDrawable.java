@@ -19,30 +19,34 @@ import com.github.penfeizhou.animation.loader.ResourceStreamLoader;
  * @CreateDate: 2019/3/27
  */
 public class AVIFDrawable extends FrameAnimationDrawable<AVIFDecoder> {
-    public AVIFDrawable(Loader provider) {
+    public AVIFDrawable(@NonNull Loader provider) {
         super(provider);
     }
 
-    public AVIFDrawable(AVIFDecoder decoder) {
+    public AVIFDrawable(@NonNull AVIFDecoder decoder) {
         super(decoder);
     }
 
+    @NonNull
     @Override
     protected AVIFDecoder createFrameSeqDecoder(Loader streamLoader, FrameSeqDecoder.RenderListener listener) {
         return new AVIFDecoder(streamLoader, listener);
     }
 
 
+    @NonNull
     public static AVIFDrawable fromAsset(@NonNull Context context, String assetPath) {
         AssetStreamLoader assetStreamLoader = new AssetStreamLoader(context, assetPath);
         return new AVIFDrawable(assetStreamLoader);
     }
 
-    public static AVIFDrawable fromFile(String filePath) {
+    @NonNull
+    public static AVIFDrawable fromFile(@NonNull String filePath) {
         FileLoader fileLoader = new FileLoader(filePath);
         return new AVIFDrawable(fileLoader);
     }
 
+    @NonNull
     public static AVIFDrawable fromResource(@NonNull Context context, int resId) {
         ResourceStreamLoader resourceStreamLoader = new ResourceStreamLoader(context, resId);
         return new AVIFDrawable(resourceStreamLoader);

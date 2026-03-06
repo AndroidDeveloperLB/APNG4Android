@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.decode.Frame;
 import com.github.penfeizhou.animation.webp.io.WebPReader;
 import com.github.penfeizhou.animation.webp.io.WebPWriter;
@@ -27,7 +29,7 @@ public class AnimationFrame extends Frame<WebPReader, WebPWriter> {
     private static final PorterDuffXfermode PORTERDUFF_XFERMODE_SRC_OVER = new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER);
     private static final PorterDuffXfermode PORTERDUFF_XFERMODE_SRC = new PorterDuffXfermode(PorterDuff.Mode.SRC);
 
-    public AnimationFrame(WebPReader reader, ANMFChunk anmfChunk) {
+    public AnimationFrame(WebPReader reader, @NonNull ANMFChunk anmfChunk) {
         super(reader);
         this.frameWidth = anmfChunk.frameWidth;
         this.frameHeight = anmfChunk.frameHeight;
@@ -72,7 +74,7 @@ public class AnimationFrame extends Frame<WebPReader, WebPWriter> {
         return size;
     }
 
-    public Bitmap draw(Canvas canvas, Paint paint, int sampleSize, Bitmap reusedBitmap, WebPWriter writer) {
+    public Bitmap draw(Canvas canvas, Paint paint, int sampleSize, Bitmap reusedBitmap, @NonNull WebPWriter writer) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = false;
         options.inSampleSize = sampleSize;

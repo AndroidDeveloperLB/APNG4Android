@@ -2,6 +2,8 @@ package com.github.penfeizhou.animation.webp.decode;
 
 import android.text.TextUtils;
 
+import androidx.annotation.Nullable;
+
 import com.github.penfeizhou.animation.webp.io.WebPReader;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class BaseChunk {
     public int offset;
     public static final int CHUNCK_HEADER_OFFSET = 8;
 
-    public static int fourCCToInt(String fourCC) {
+    public static int fourCCToInt(@Nullable String fourCC) {
         if (TextUtils.isEmpty(fourCC) || fourCC.length() != 4) {
             return 0xbadeffff;
         }

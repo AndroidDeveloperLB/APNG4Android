@@ -28,21 +28,25 @@ public class WebPDrawable extends FrameAnimationDrawable<WebPDecoder> {
         super(decoder);
     }
 
+    @NonNull
     @Override
     protected WebPDecoder createFrameSeqDecoder(Loader streamLoader, FrameSeqDecoder.RenderListener listener) {
         return new WebPDecoder(streamLoader, listener);
     }
 
+    @NonNull
     public static WebPDrawable fromAsset(@NonNull Context context, String assetPath) {
         AssetStreamLoader assetStreamLoader = new AssetStreamLoader(context, assetPath);
         return new WebPDrawable(assetStreamLoader);
     }
 
+    @NonNull
     public static WebPDrawable fromFile(String filePath) {
         FileLoader fileLoader = new FileLoader(filePath);
         return new WebPDrawable(fileLoader);
     }
 
+    @NonNull
     public static WebPDrawable fromResource(@NonNull Context context, int resId) {
         ResourceStreamLoader resourceStreamLoader = new ResourceStreamLoader(context, resId);
         return new WebPDrawable(resourceStreamLoader);

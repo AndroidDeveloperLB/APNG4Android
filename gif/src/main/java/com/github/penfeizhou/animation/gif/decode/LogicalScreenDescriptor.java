@@ -1,5 +1,7 @@
 package com.github.penfeizhou.animation.gif.decode;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.gif.io.GifReader;
 
 import java.io.IOException;
@@ -142,7 +144,7 @@ public class LogicalScreenDescriptor implements Block {
     byte radio;
 
     @Override
-    public void receive(GifReader reader) throws IOException {
+    public void receive(@NonNull GifReader reader) throws IOException {
         screenWidth = reader.readUInt16();
         screenHeight = reader.readUInt16();
         flag = reader.peek();

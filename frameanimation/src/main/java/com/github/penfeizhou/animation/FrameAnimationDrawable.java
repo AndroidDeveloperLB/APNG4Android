@@ -90,6 +90,7 @@ public abstract class FrameAnimationDrawable<Decoder extends FrameSeqDecoder<?, 
         this.noMeasure = noMeasure;
     }
 
+    @NonNull
     protected abstract Decoder createFrameSeqDecoder(Loader streamLoader, FrameSeqDecoder.RenderListener listener);
 
     /**

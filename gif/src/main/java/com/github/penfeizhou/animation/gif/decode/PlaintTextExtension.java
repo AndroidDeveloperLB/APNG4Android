@@ -1,5 +1,7 @@
 package com.github.penfeizhou.animation.gif.decode;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.gif.io.GifReader;
 
 import java.io.IOException;
@@ -15,7 +17,7 @@ public class PlaintTextExtension extends ExtensionBlock {
     private List<DataSubBlock> plainTextData = new ArrayList<>();
 
     @Override
-    public void receive(GifReader reader) throws IOException {
+    public void receive(@NonNull GifReader reader) throws IOException {
         int blockSize = reader.peek();
         int x = reader.readUInt16();
         int y = reader.readUInt16();

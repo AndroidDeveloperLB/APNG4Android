@@ -2,6 +2,8 @@ package com.github.penfeizhou.animation.apng.io;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.io.FilterReader;
 import com.github.penfeizhou.animation.io.Reader;
 
@@ -16,6 +18,7 @@ public class APNGReader extends FilterReader {
     private static ThreadLocal<byte[]> __intBytes = new ThreadLocal<>();
 
 
+    @NonNull
     protected static byte[] ensureBytes() {
         byte[] bytes = __intBytes.get();
         if (bytes == null) {
@@ -48,7 +51,7 @@ public class APNGReader extends FilterReader {
     /**
      * @return read FourCC and match chars
      */
-    public boolean matchFourCC(String chars) throws IOException {
+    public boolean matchFourCC(@Nullable String chars) throws IOException {
         if (TextUtils.isEmpty(chars) || chars.length() != 4) {
             return false;
         }

@@ -1,6 +1,8 @@
 package com.github.penfeizhou.animation.loader;
 
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.io.Reader;
 import com.github.penfeizhou.animation.io.StreamReader;
 
@@ -15,6 +17,7 @@ public abstract class StreamLoader implements Loader {
     protected abstract InputStream getInputStream() throws IOException;
 
 
+    @NonNull
     public final synchronized Reader obtain() throws IOException {
         return new StreamReader(getInputStream());
     }

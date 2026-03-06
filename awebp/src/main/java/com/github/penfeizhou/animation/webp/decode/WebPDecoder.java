@@ -9,6 +9,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.decode.Frame;
 import com.github.penfeizhou.animation.decode.FrameSeqDecoder;
 import com.github.penfeizhou.animation.io.Reader;
@@ -56,6 +58,7 @@ public class WebPDecoder extends FrameSeqDecoder<WebPReader, WebPWriter> {
         return mWriter;
     }
 
+    @NonNull
     @Override
     protected WebPReader getReader(Reader reader) {
         return new WebPReader(reader);
@@ -71,8 +74,9 @@ public class WebPDecoder extends FrameSeqDecoder<WebPReader, WebPWriter> {
 
     }
 
+    @NonNull
     @Override
-    protected Rect read(WebPReader reader) throws IOException {
+    protected Rect read(@NonNull WebPReader reader) throws IOException {
         List<BaseChunk> chunks = WebPParser.parse(reader);
         boolean anim = false;
         boolean vp8x = false;
@@ -111,8 +115,8 @@ public class WebPDecoder extends FrameSeqDecoder<WebPReader, WebPWriter> {
     }
 
     @Override
-    protected void renderFrame(Frame<WebPReader, WebPWriter> frame) {
-        if (frame == null || fullRect == null) {
+    protected void renderFrame(@NonNull Frame<WebPReader, WebPWriter> frame) {
+        if (fullRect == null) {
             return;
         }
         if (fullRect.width() <= 0 || fullRect.height() <= 0) {

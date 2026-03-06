@@ -15,13 +15,15 @@ import java.io.InputStream;
 public class AssetStreamLoader extends StreamLoader {
 
     private final Context mContext;
+    @NonNull
     private final String mAssetName;
 
-    public AssetStreamLoader(@NonNull Context context, String assetName) {
+    public AssetStreamLoader(@NonNull Context context, @NonNull String assetName) {
         mContext = context.getApplicationContext();
         mAssetName = assetName;
     }
 
+    @NonNull
     @Override
     protected InputStream getInputStream() throws IOException {
         return mContext.getAssets().open(mAssetName);

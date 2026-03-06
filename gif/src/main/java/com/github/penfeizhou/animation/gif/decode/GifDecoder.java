@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.decode.Frame;
 import com.github.penfeizhou.animation.decode.FrameSeqDecoder;
 import com.github.penfeizhou.animation.gif.io.GifReader;
@@ -54,6 +56,7 @@ public class GifDecoder extends FrameSeqDecoder<GifReader, GifWriter> {
         return mGifWriter;
     }
 
+    @NonNull
     @Override
     protected GifReader getReader(Reader reader) {
         return new GifReader(reader);
@@ -70,6 +73,7 @@ public class GifDecoder extends FrameSeqDecoder<GifReader, GifWriter> {
         mGifWriter = null;
     }
 
+    @NonNull
     @Override
     protected Rect read(GifReader reader) throws IOException {
         List<Block> blocks = GifParser.parse(reader);
@@ -120,7 +124,7 @@ public class GifDecoder extends FrameSeqDecoder<GifReader, GifWriter> {
     }
 
     @Override
-    protected void renderFrame(Frame<GifReader, GifWriter> frame) {
+    protected void renderFrame(@NonNull Frame<GifReader, GifWriter> frame) {
         GifFrame gifFrame = (GifFrame) frame;
         Bitmap bitmap = obtainBitmap(fullRect.width() / sampleSize, fullRect.height() / sampleSize);
         Canvas canvas = cachedCanvas.get(bitmap);

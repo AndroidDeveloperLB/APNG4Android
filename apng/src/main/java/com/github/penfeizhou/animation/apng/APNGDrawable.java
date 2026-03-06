@@ -19,30 +19,34 @@ import com.github.penfeizhou.animation.loader.ResourceStreamLoader;
  * @CreateDate: 2019/3/27
  */
 public class APNGDrawable extends FrameAnimationDrawable<APNGDecoder> {
-    public APNGDrawable(Loader provider) {
+    public APNGDrawable(@NonNull Loader provider) {
         super(provider);
     }
 
-    public APNGDrawable(APNGDecoder decoder) {
+    public APNGDrawable(@NonNull APNGDecoder decoder) {
         super(decoder);
     }
 
+    @NonNull
     @Override
     protected APNGDecoder createFrameSeqDecoder(Loader streamLoader, FrameSeqDecoder.RenderListener listener) {
         return new APNGDecoder(streamLoader, listener);
     }
 
 
+    @NonNull
     public static APNGDrawable fromAsset(@NonNull Context context, String assetPath) {
         AssetStreamLoader assetStreamLoader = new AssetStreamLoader(context, assetPath);
         return new APNGDrawable(assetStreamLoader);
     }
 
+    @NonNull
     public static APNGDrawable fromFile(String filePath) {
         FileLoader fileLoader = new FileLoader(filePath);
         return new APNGDrawable(fileLoader);
     }
 
+    @NonNull
     public static APNGDrawable fromResource(@NonNull Context context, int resId) {
         ResourceStreamLoader resourceStreamLoader = new ResourceStreamLoader(context, resId);
         return new APNGDrawable(resourceStreamLoader);

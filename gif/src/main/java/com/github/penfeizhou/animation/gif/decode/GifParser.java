@@ -44,7 +44,7 @@ public class GifParser {
         }
     }
 
-    public static boolean isGif(@NonNull Context context, String assetPath) {
+    public static boolean isGif(@NonNull Context context, @NonNull String assetPath) {
         InputStream inputStream = null;
         try {
             inputStream = context.getAssets().open(assetPath);
@@ -93,7 +93,7 @@ public class GifParser {
         }
     }
 
-    public static List<Block> parse(GifReader reader) throws IOException {
+    public static List<Block> parse(@NonNull GifReader reader) throws IOException {
         checkHeader(reader);
         List<Block> blocks = new ArrayList<>();
         // Logical Screen Descriptor

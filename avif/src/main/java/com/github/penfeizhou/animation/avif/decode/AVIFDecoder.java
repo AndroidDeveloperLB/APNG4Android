@@ -4,6 +4,9 @@ package com.github.penfeizhou.animation.avif.decode;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.github.penfeizhou.animation.avif.io.AVIFReader;
 import com.github.penfeizhou.animation.avif.io.AVIFWriter;
 import com.github.penfeizhou.animation.decode.Frame;
@@ -15,8 +18,6 @@ import org.aomedia.avif.android.AvifDecoder;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import androidx.annotation.Nullable;
 
 /**
  * @Description: AVIFDecoder
@@ -34,11 +35,13 @@ public class AVIFDecoder extends FrameSeqDecoder<AVIFReader, AVIFWriter> {
 
     private AvifDecoder avifDecoder = null;
 
+    @Nullable
     @Override
     protected AVIFWriter getWriter() {
         return null;
     }
 
+    @NonNull
     @Override
     protected AVIFReader getReader(Reader reader) {
         return new AVIFReader(reader);
@@ -63,8 +66,9 @@ public class AVIFDecoder extends FrameSeqDecoder<AVIFReader, AVIFWriter> {
         }
     }
 
+    @NonNull
     @Override
-    protected Rect read(AVIFReader reader) throws IOException {
+    protected Rect read(@NonNull AVIFReader reader) throws IOException {
         ByteBuffer source = reader.toDirectByteBuffer();
         avifDecoder = AvifDecoder.create(source);
         return new Rect(0, 0, avifDecoder.getWidth(), avifDecoder.getHeight());
@@ -78,6 +82,7 @@ public class AVIFDecoder extends FrameSeqDecoder<AVIFReader, AVIFWriter> {
         return avifDecoder.getFrameCount();
     }
 
+    @Nullable
     @Override
     public Bitmap getFrameBitmap(int index) throws IOException {
         if (avifDecoder == null) {
@@ -88,6 +93,7 @@ public class AVIFDecoder extends FrameSeqDecoder<AVIFReader, AVIFWriter> {
         return bitmap;
     }
 
+    @NonNull
     @Override
     public Frame<AVIFReader, AVIFWriter> getFrame(int index) {
         AVIFFrame avifFrame = new AVIFFrame(null);
@@ -97,7 +103,7 @@ public class AVIFDecoder extends FrameSeqDecoder<AVIFReader, AVIFWriter> {
     }
 
     @Override
-    protected void renderFrame(Frame<AVIFReader, AVIFWriter> frame) {
+    protected void renderFrame(@NonNull Frame<AVIFReader, AVIFWriter> frame) {
         Bitmap bitmap = obtainBitmap(avifDecoder.getWidth(), avifDecoder.getHeight());
         if (avifDecoder == null) {
             return;

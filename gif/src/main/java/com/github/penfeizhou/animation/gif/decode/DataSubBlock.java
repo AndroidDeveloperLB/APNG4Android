@@ -1,5 +1,7 @@
 package com.github.penfeizhou.animation.gif.decode;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.gif.io.GifReader;
 
 import java.io.IOException;
@@ -19,7 +21,8 @@ public class DataSubBlock implements Block {
         this.blockSize = blockSize;
     }
 
-    public static DataSubBlock retrieve(GifReader reader) throws IOException {
+    @NonNull
+    public static DataSubBlock retrieve(@NonNull GifReader reader) throws IOException {
         int blockSize = reader.peek() & 0xff;
         if (blockSize == 0) {
             return sBlockTerminal;
@@ -31,7 +34,7 @@ public class DataSubBlock implements Block {
     }
 
     @Override
-    public void receive(GifReader reader) throws IOException {
+    public void receive(@NonNull GifReader reader) throws IOException {
         reader.skip(blockSize);
     }
 

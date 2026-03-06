@@ -1,5 +1,7 @@
 package com.github.penfeizhou.animation.gif.decode;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.gif.io.GifReader;
 
 import java.io.IOException;
@@ -128,7 +130,7 @@ public class ImageDescriptor implements Block {
     public int imageDataOffset;
 
     @Override
-    public void receive(GifReader reader) throws IOException {
+    public void receive(@NonNull GifReader reader) throws IOException {
         this.frameX = reader.readUInt16();
         this.frameY = reader.readUInt16();
         this.frameWidth = reader.readUInt16();

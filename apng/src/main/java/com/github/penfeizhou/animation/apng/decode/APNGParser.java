@@ -26,7 +26,7 @@ public class APNGParser {
         }
     }
 
-    public static boolean isAPNG(String filePath) {
+    public static boolean isAPNG(@NonNull String filePath) {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(filePath);
@@ -44,7 +44,7 @@ public class APNGParser {
         }
     }
 
-    public static boolean isAPNG(@NonNull Context context, String assetPath) {
+    public static boolean isAPNG(@NonNull Context context, @NonNull String assetPath) {
         InputStream inputStream = null;
         try {
             inputStream = context.getAssets().open(assetPath);
@@ -100,6 +100,7 @@ public class APNGParser {
         return false;
     }
 
+    @NonNull
     public static List<Chunk> parse(@NonNull APNGReader reader) throws IOException {
         if (!reader.matchFourCC("\u0089PNG") || !reader.matchFourCC("\r\n\u001a\n")) {
             throw new FormatException();

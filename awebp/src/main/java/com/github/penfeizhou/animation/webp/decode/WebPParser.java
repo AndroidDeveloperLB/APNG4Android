@@ -26,7 +26,7 @@ public class WebPParser {
         }
     }
 
-    public static boolean isAWebP(String filePath) {
+    public static boolean isAWebP(@NonNull String filePath) {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(filePath);
@@ -44,7 +44,7 @@ public class WebPParser {
         }
     }
 
-    public static boolean isAWebP(@NonNull Context context, String assetPath) {
+    public static boolean isAWebP(@NonNull Context context, @NonNull String assetPath) {
         InputStream inputStream = null;
         try {
             inputStream = context.getAssets().open(assetPath);
@@ -104,7 +104,8 @@ public class WebPParser {
         return false;
     }
 
-    public static List<BaseChunk> parse(WebPReader reader) throws IOException {
+    @NonNull
+    public static List<BaseChunk> parse(@NonNull WebPReader reader) throws IOException {
         //@link {https://developers.google.com/speed/webp/docs/riff_container#webp_file_header}
         if (!reader.matchFourCC("RIFF")) {
             throw new FormatException();

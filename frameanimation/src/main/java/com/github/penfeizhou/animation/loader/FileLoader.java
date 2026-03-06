@@ -23,6 +23,7 @@ public class FileLoader implements Loader {
         mFile = new File(path);
     }
 
+    @NonNull
     @Override
     public synchronized Reader obtain() throws IOException {
         return new FileReader(mFile);

@@ -1,5 +1,7 @@
 package com.github.penfeizhou.animation.gif.decode;
 
+import androidx.annotation.NonNull;
+
 import com.github.penfeizhou.animation.gif.io.GifReader;
 
 import java.io.IOException;
@@ -16,7 +18,7 @@ public class GraphicControlExtension extends ExtensionBlock {
     public int transparentColorIndex;
 
     @Override
-    public void receive(GifReader reader) throws IOException {
+    public void receive(@NonNull GifReader reader) throws IOException {
         blockSize = reader.peek() & 0xff;
         packedFields = reader.peek();
         delayTime = reader.readUInt16();
