@@ -1,15 +1,19 @@
-package com.github.penfeizhou.animation.demo
+package com.github.penfeizhou.animation.demo.frame_sequence_test
 
 import android.app.Application
 import android.graphics.Bitmap
 import androidx.lifecycle.*
 import com.github.penfeizhou.animation.apng.decode.APNGDecoder
+import com.github.penfeizhou.animation.apng.decode.APNGParser
 import com.github.penfeizhou.animation.avif.decode.AVIFDecoder
+import com.github.penfeizhou.animation.avif.decode.AVIFParser
 import com.github.penfeizhou.animation.decode.FrameSeqDecoder
 import com.github.penfeizhou.animation.gif.decode.GifDecoder
+import com.github.penfeizhou.animation.gif.decode.GifParser
+import com.github.penfeizhou.animation.loader.AssetStreamLoader
 import com.github.penfeizhou.animation.loader.Loader
-import com.github.penfeizhou.animation.loader.ResourceStreamLoader
 import com.github.penfeizhou.animation.webp.decode.WebPDecoder
+import com.github.penfeizhou.animation.webp.decode.WebPParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -44,17 +48,17 @@ class FrameSequenceViewModel(application: Application) : AndroidViewModel(applic
         stopDecoding()
         decoder?.stop()
         val context = getApplication<Application>()
-        val loader = com.github.penfeizhou.animation.loader.AssetStreamLoader(context, assetName)
+        val loader = AssetStreamLoader(context, assetName)
         decoder = createDecoder(loader)
-        
+
         viewModelScope.launch(Dispatchers.IO) {
-            decoder?.let {
+            decoder?.let { decoder ->
                 try {
-                    it.prepareSequentialDecode()
-                    val bounds = it.bounds
-                    val frameCount = it.frameCount
+                    decoder.prepareSequentialDecode()
+                    val bounds = decoder.bounds
+                    val frameCount = decoder.frameCount
                     _fileInfo.postValue("File: $assetName\nSize: ${bounds.width()}x${bounds.height()}\nFrames: $frameCount")
-                    
+
                     currentBitmap?.recycle()
                     currentBitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888)
                     nextFrame()
@@ -69,10 +73,10 @@ class FrameSequenceViewModel(application: Application) : AndroidViewModel(applic
         val reader = loader.obtain()
         return try {
             when {
-                com.github.penfeizhou.animation.webp.decode.WebPParser.isAWebP(reader) -> WebPDecoder(loader, null)
-                com.github.penfeizhou.animation.apng.decode.APNGParser.isAPNG(reader.also { it.reset() }) -> APNGDecoder(loader, null)
-                com.github.penfeizhou.animation.gif.decode.GifParser.isGif(reader.also { it.reset() }) -> GifDecoder(loader, null)
-                com.github.penfeizhou.animation.avif.decode.AVIFParser.isAVIF(reader.also { it.reset() }) -> AVIFDecoder(loader, null)
+                WebPParser.isAWebP(reader) -> WebPDecoder(loader, null)
+                APNGParser.isAPNG(reader.also { it.reset() }) -> APNGDecoder(loader, null)
+                GifParser.isGif(reader.also { it.reset() }) -> GifDecoder(loader, null)
+                AVIFParser.isAVIF(reader.also { it.reset() }) -> AVIFDecoder(loader, null)
                 else -> null
             }
         } finally {
@@ -124,7 +128,7 @@ class FrameSequenceViewModel(application: Application) : AndroidViewModel(applic
         if (_isDecodingAll.value == true) return
         _isDecodingAll.value = true
         _performanceInfo.value = "Starting..."
-        
+
         viewModelScope.launch(Dispatchers.IO) {
             val d = decoder ?: run {
                 _isDecodingAll.postValue(false)
@@ -132,7 +136,7 @@ class FrameSequenceViewModel(application: Application) : AndroidViewModel(applic
             }
             val start = System.currentTimeMillis()
             val totalFrames = d.frameCount
-            
+
             d.decodeAllFrames(object : FrameSeqDecoder.FrameVisitor {
                 override fun onFrame(index: Int, bitmap: Bitmap, duration: Int): Boolean {
                     _performanceProgress.postValue((index + 1) * 100 / totalFrames)
@@ -143,7 +147,7 @@ class FrameSequenceViewModel(application: Application) : AndroidViewModel(applic
                     _performanceInfo.postValue("Error: ${t.message}")
                 }
             })
-            
+
             val end = System.currentTimeMillis()
             _performanceInfo.postValue("Decoded $totalFrames frames in ${end - start}ms")
             _isDecodingAll.postValue(false)

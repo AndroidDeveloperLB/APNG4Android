@@ -38,7 +38,7 @@
             android:name=".TransparencyTestActivity"
             android:exported="false" />
         <activity
-            android:name=".FrameSequenceTestActivity"
+            android:name=".frame_sequence_test.FrameSequenceTestActivity"
             android:exported="false" />
     </application>
 

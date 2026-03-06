@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
@@ -353,6 +354,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
         }
     }
 
+    @AnyThread
     public void stop() {
         if (fullRect == RECT_EMPTY) {
             return;

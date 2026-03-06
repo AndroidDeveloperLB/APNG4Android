@@ -1,4 +1,4 @@
-package com.github.penfeizhou.animation.demo
+package com.github.penfeizhou.animation.demo.frame_sequence_test
 
 import android.annotation.SuppressLint
 import android.os.Bundle
