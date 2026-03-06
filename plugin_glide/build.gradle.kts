@@ -29,14 +29,12 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("com.github.bumptech.glide:glide:5.0.5")
     annotationProcessor("com.github.bumptech.glide:compiler:5.0.5")
-    val version = rootProject.extra["Version"] as String
-    api("com.github.penfeizhou.android.animation:awebp:$version")
-    api("com.github.penfeizhou.android.animation:apng:$version")
-    api("com.github.penfeizhou.android.animation:gif:$version")
-    api("com.github.penfeizhou.android.animation:avif:$version")
+    api(project(":awebp"))
+    api(project(":apng"))
+    api(project(":gif"))
+    api(project(":avif"))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")

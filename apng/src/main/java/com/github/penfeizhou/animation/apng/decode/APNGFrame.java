@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.github.penfeizhou.animation.apng.io.APNGReader;
 import com.github.penfeizhou.animation.apng.io.APNGWriter;

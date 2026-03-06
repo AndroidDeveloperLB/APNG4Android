@@ -3,6 +3,7 @@ package com.github.penfeizhou.animation.apng.io;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.github.penfeizhou.animation.io.FilterReader;
 import com.github.penfeizhou.animation.io.Reader;

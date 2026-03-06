@@ -28,7 +28,8 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("androidx.appcompat:appcompat:1.7.1")
+    api("androidx.annotation:annotation:1.9.1")
+    api("androidx.vectordrawable:vectordrawable-animated:1.2.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")

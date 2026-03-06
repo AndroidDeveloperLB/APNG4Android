@@ -28,10 +28,8 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    implementation("androidx.appcompat:appcompat:1.7.1")
-    val version = rootProject.extra["Version"] as String
-    api("com.github.penfeizhou.android.animation:awebp:$version")
-    api("com.github.penfeizhou.android.animation:gif:$version")
+    api(project(":awebp"))
+    api(project(":gif"))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")

@@ -28,10 +28,8 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    val version = rootProject.extra["Version"] as String
-    api("com.github.penfeizhou.android.animation:frameanimation:$version")
+    api(project(":frameanimation"))
     implementation("org.aomedia.avif.android:avif:1.3.0.841110fd")
-    implementation("androidx.appcompat:appcompat:1.7.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
