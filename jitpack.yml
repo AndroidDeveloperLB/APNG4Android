@@ -1,5 +1,5 @@
 jdk:
-  - openjdk17
+  - openjdk21
 install:
   - ./gradlew publishToMavenLocal -Pgroup=com.github.penfeizhou.android.animation
   - ./gradlew :app:assembleDebug
