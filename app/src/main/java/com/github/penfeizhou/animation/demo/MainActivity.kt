@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.github.penfeizhou.animation.demo.databinding.ActivityMainBinding
+import com.github.penfeizhou.animation.demo.frame_sequence_test.FrameSequenceTestActivity
 
 /**
  *
