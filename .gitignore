@@ -8,3 +8,4 @@
 /captures
 .externalNativeBuild
 depsTree.txt
+/gradle/gradle-daemon-jvm.properties

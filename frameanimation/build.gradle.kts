@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.github.penfeizhou.animation.frameanimation"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 21
@@ -28,7 +28,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    api("androidx.annotation:annotation:1.9.1")
+    api("androidx.annotation:annotation:1.10.0")
     api("androidx.vectordrawable:vectordrawable-animated:1.2.0")
 
     testImplementation("junit:junit:4.13.2")
